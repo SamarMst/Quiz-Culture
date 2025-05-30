@@ -35,8 +35,8 @@ function Hero() {
 
       {/* Main Content */}
       <h1 className="text-5xl font-bold text-white mb-4">Welcome to Culturology</h1>
-      <p className="text-lg text-white mb-8">Your one-stop solution for cultural insights.</p>
-      <button className="bg-white text-sky-500 px-6 py-3 rounded-full hover:bg-gray-200 transition duration-300" onClick={handleGetStarted}>Get Started</button>
+      <p className="text-lg text-white mb-8">Your one-stop solution for cultural insights!</p>
+      <button className="bg-white text-sky-500 px-6 py-3 rounded-full hover:bg-gray-200 transition duration-300 glow-on-hover" onClick={handleGetStarted}>Get Started</button>
     </div>
   )
 }
