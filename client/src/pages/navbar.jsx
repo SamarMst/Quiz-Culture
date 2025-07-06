@@ -1,6 +1,11 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function NavBar() {
+  const navigate = useNavigate();
+  const handleLogin = () => {
+    navigate("/login");
+  }
   return (
     <div className="flex justify-between items-center bg-gradient-to-r from-sky-500 to-sky-300 p-4">
         <div className="flex items-center">
@@ -11,7 +16,7 @@ function NavBar() {
         <a href="#" className="text-white hover:text-gray-400">Home</a>
         <a href="#" className="text-white hover:text-gray-400">About</a>
         <a href="#" className="text-white hover:text-gray-400">Contact</a>
-        <button className="bg-white text-sky-400 px-4 py-2 rounded-3xl hover:bg-gray-200">Login</button>
+        <button className="bg-white text-sky-400 px-4 py-2 rounded-3xl hover:bg-gray-200" onClick={handleLogin}>Login</button>
       </div>
     </div>
   )
