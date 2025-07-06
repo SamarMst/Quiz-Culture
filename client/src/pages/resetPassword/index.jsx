@@ -1,45 +1,35 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword, sendPasswordResetEmail  } from 'firebase/auth';
+import { sendPasswordResetEmail  } from 'firebase/auth';
 import { auth } from '../../firebase/firebase'; 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Login() {
+function ResetPassword() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  
 
   const goToSignup = (e) => {
     e.preventDefault();
     navigate('/signup');
   };
 
-  const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleReset = async () => {
+      if (!email) {
+        toast.error('Please enter your email');
+        return;
+      }
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      toast(`Hello ${user.displayName || 'User'}, Welcome back to Culturology!`);
-      console.log('Logged in:', user);
-      console.log('Username:', user.displayName);
-      console.log('Email:', user.email);
-      navigate('/');
-    })
-    .catch((error) => {
-      console.error('Login error:', error.message);
-      toast.error(error.message);
-      setError(error.message);
-    });
-};
-  const goToResetPassword = (e) => {
-    e.preventDefault();
-    navigate('/reset-password');
-  };
+      try {
+        await sendPasswordResetEmail(auth, email);
+        toast.success('Password reset email sent!');
+      } catch (error) {
+        toast.error('Error sending reset email');
+      }
+    };
+
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-sky-500 to-sky-300">
@@ -53,8 +43,8 @@ function Login() {
 
         {/* Right Side */}
         <div className="flex flex-col justify-center w-full md:w-1/2 px-4">
-          <h1 className="text-6xl font-bold text-sky-500 mb-8 text-center md:text-left">Login</h1>
-          <form onSubmit={handleSubmit} className="flex flex-col space-y-5 w-full">
+          <h1 className="text-6xl font-bold text-sky-500 mb-8 text-center md:text-left">Reset Password</h1>
+          <form onSubmit={handleReset} className="flex flex-col space-y-5 w-full">
             <input
               type="email"
               placeholder="Email"
@@ -62,30 +52,17 @@ function Login() {
               onChange={(e) => setEmail(e.target.value)}
               className="border border-gray-300 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-sky-400"
             />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="border border-gray-300 p-3 rounded-full focus:outline-none focus:ring-2 focus:ring-sky-400"
-            />
-
-            <div className="text-right text-sm">
-              <button  onClick={goToResetPassword} className="text-sky-500 hover:underline">
-                Forgot Password?
-              </button>
-            </div>
 
             <button
               type="submit"
               className="bg-sky-500 text-white py-3 rounded-full hover:bg-sky-600 transition duration-200"
             >
-              Login
+              ResetPassword
             </button>
 
             <p className="text-center text-gray-500">
               Don't have an account?{' '}
-              <a href="#" onClick={goToSignup} className="text-sky-500 hover:underline">
+              <a  onClick={goToSignup} className="text-sky-500 hover:underline">
                 Sign up
               </a>
             </p>
@@ -97,4 +74,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ResetPassword;
