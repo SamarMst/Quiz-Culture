@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const usersInfoSchema = new Schema({
-    email: {
-        type: String,
-        required: true,
-        unique: true,
+const userInfoSchema = new Schema({
+    user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    unique: true
     },
     age: {
         type: Number,
@@ -23,4 +24,4 @@ const usersInfoSchema = new Schema({
     },
 });
 
-model.exports = mongoose.model("UsersInfo", usersInfoSchema);
+module.exports = mongoose.model("UserInfo", userInfoSchema);
